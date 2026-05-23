@@ -19,7 +19,6 @@ class Publication extends Controller
 public function add()
 {
     $model = new PublicationModel();
-    
     $user_id = session()->get('user_id');
 
     if (!$user_id) {
@@ -30,20 +29,17 @@ public function add()
     $image_name = null; 
 
     if ($img && $img->isValid() && !$img->hasMoved()) {
-        
         $image_name = $img->getRandomName();
-        
         $img->move(FCPATH . 'uploads/gallery', $image_name);
     }
 
-    
     $model->save([
         'user_id'    => $user_id,
         'content'    => $this->request->getPost('content'),
-        'image_name' => $image_name 
+        'image_name' => $image_name,
+        'visibility' => $this->request->getPost('visibility') // <--- AGREGA ESTO
     ]);
 
-    
     return redirect()->to(base_url('publication'));
 }
 
@@ -57,18 +53,20 @@ public function add()
         echo view('footer');
     }
 
-    public function update()
-    {
-        $model = new PublicationModel();
-        $id = $this->request->getPost('id');
-        $data = [
-            'content' => $this->request->getPost('content'),
-            'user_id' => $this->request->getPost('user_id')
-        ];
+public function update()
+{
+    $model = new PublicationModel();
+    $id = $this->request->getPost('id');
 
-        $model->update($id, $data);
-        return redirect()->to(base_url('publication'));
-    }
+    $data = [
+        'content'    => $this->request->getPost('content'),
+        'user_id'    => $this->request->getPost('user_id'), 
+        'visibility' => $this->request->getPost('visibility')
+    ];
+
+    $model->update($id, $data);
+    return redirect()->to(base_url('publication'));
+}
 
     public function delete($id)
     {

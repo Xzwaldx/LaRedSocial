@@ -6,7 +6,7 @@ class PublicationModel extends Model
 {
     protected $table = 'publication'; 
     protected $primaryKey = 'id';
-    protected $allowedFields = ['content', 'user_id', 'image_name']; // Campos permitidos para guardar
+    protected $allowedFields = ['content', 'user_id', 'image_name', 'visibility']; // Campos permitidos para guardar
 
     public function get($id = false)
     {
@@ -22,7 +22,7 @@ class PublicationModel extends Model
         return $builder->where(['publication.id' => $id])->get()->getRowArray();
     }
 
-    public function show()
+public function show()
 {
     $db = \Config\Database::connect();
     
@@ -31,6 +31,8 @@ class PublicationModel extends Model
     $builder->select('publication.*, user.name as user_name');
     
     $builder->join('user', 'user.id = publication.user_id');
+    
+    $builder->where('publication.visibility', 'public');
     
     $builder->orderBy('publication.id', 'DESC');
     

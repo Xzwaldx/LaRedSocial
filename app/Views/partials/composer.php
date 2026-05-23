@@ -15,11 +15,17 @@
                     </label>
                     <small id="fileName" class="text-muted ml-2"></small>
                 </div>
-                
+    
+                <select name="visibility" class="form-control form-control-sm w-auto mr-2">
+                    <option value="public">Pública</option>
+                    <option value="private">Privada</option>
+                </select>
+    
                 <button type="submit" class="btn btn-primary px-4 font-weight-bold" style="border-radius: 20px;">
                     Publicar
                 </button>
             </div>
+    		
         </form>
     </div>
 </div>
